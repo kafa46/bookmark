@@ -1,0 +1,17 @@
+{% extends 'base.html'  %}
+
+{% block title  %}
+    북마크 업데이트
+{% endblock  %}
+
+{% block content  %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Update" class="btn btn-info btn-sm">
+    </form>
+
+    <p>
+        <a href="{% url 'list' %}">북마크 리스트로 돌아가기</a>
+    </p>
+{% endblock  %}

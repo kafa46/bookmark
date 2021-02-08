@@ -1,0 +1,153 @@
+{% extends 'base.html'  %}
+
+{% block title  %}
+    북마크 리스트
+{% endblock  %}
+
+{% block content  %}
+    <div class='btn-group'>
+        <a href="{% url 'add' %}" class='btn-info'>Add Bookmark</a>
+    </div>
+    <p></p>
+    <table class="table">
+        <thead>
+            <th scope="col">순번</th>
+            <th scope="col">Site</th>
+            <th scope="col">URL</th>
+            <th scope="col">수정하기</th>
+            <th scope="col">삭제하기</th>
+        </thead>
+
+        <tbody>
+            {% for bookmark in object_list %}
+            <tr>
+                <!-- <td>{{forloop.counter}}</td> -->
+                <td>{{bookmark.id}}</td>
+                <td><a href="{% url 'detail' pk=bookmark.id %}">{{bookmark.site_name}}</a></td>
+                <td><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a></td>
+                <td><a href="{% url 'update' pk=bookmark.id %}" class="btn btn-warning btn-sm">Modify</a></td>
+                <td><a href="{% url 'delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- 페이지 처리 -->
+    <!-- 참고 블로그: https://wikidocs.net/71240 -->
+    {% if is_paginated  %}
+        
+        <!-- 페이징처리 시작 -->
+        <ul class="pagination justify-content-center pagination-sm">
+            
+            <!-- 이전페이지 -->
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" 
+                       href="{% url 'list'  %}?page={{page_obj.previous_page_number}}"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link"
+                       href="#"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% endif %}
+            
+            <!-- 페이지리스트 -->
+            <!-- {% for page_number in page_obj.paginator.page_range %}
+                {% if page_number == forloop.counter %}
+                    <li class="page-item active">
+                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %} -->
+
+            {% for page_number in page_obj.paginator.page_range %}
+                
+                <!-- 현재 페이지 기준으로 좌/우 n개씩 표시하기 -->
+                {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
+                    <li class="page-item{% if page_obj.number == forloop.counter %}
+                                            disabled
+                                        {% else %}
+                                            active
+                                        {% endif %}">
+                        <a  class="page-link"
+                            href="{{ request.path }}?page={{forloop.counter}}">
+                            {{forloop.counter}}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            <!-- 다음페이지 -->
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{% url 'list' %}?page={{page_obj.next_page_number}}">
+                        다음페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">다음페이지</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif  %}
+
+{% endblock  %}
+
+<!-- {% block pagination  %}
+    {% if is_paginated  %}
+        <ul class="pagination justify-content-center pagination-sm">
+            {% if page_obj.has_previous  %}
+                <li class="page-item">
+                    <a class="page-link" 
+                       href="{% url 'list'  %}?page={{page_obj.previous_page_number}}"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link"
+                       href="#"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for object in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == forloop.counter %}disabled{% endif %}">
+                    <a  class="page-link"
+                        href="{{ request.path }}?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                    </a>
+                </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-item"
+                       href="{% url 'list' %}?page={{page_obj.next_page_number}}">
+                        다음페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">다음페이지</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif  %}
+{% endblock %} -->

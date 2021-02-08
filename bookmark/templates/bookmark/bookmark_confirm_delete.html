@@ -1,0 +1,18 @@
+{% extends 'base.html'  %}
+
+{% block title  %}
+    삭제 확인
+{% endblock  %}
+
+{% block content  %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="alert alert-danger">
+            북마크를 정말로 삭제할까요? "{{object}}"?
+        </div>
+        <br>
+        <div>
+            <input type="submit" value="삭제 실행" class="btn btn-danger">
+        </div>
+    </form>
+{% endblock  %}
