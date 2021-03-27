@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}북마크 목록{% endblock %}
+
+{% block content %}
+    <div class="btn-group">
+        <!-- href="#" -> 현재 페이지를 의미함 -->
+        <!-- <a href="#" class="btn btn-info">북마크 추가하기</a> -->
+        
+        <!-- urls.py에서 name으로 설정한 경로로 연결하고자 하는 경우 -->
+        <a href="{% url 'add' %}" class="btn btn-info">북마크 추가하기</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <th scope="col">순번</th>
+            <th scope="col">Site</th>
+            <th scope="col">URL</th>
+            <th scope="col">수정하기</th>
+            <th scope="col">삭제하기</th>
+        </thead>
+
+        <tbody>
+            {% for bookmark in object_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <!-- <td>{{bookmark.id}}</td> -->
+                <!-- <td><a href="{ % url 'detail' pk=bookmark.id % }">{{bookmark.site_name}}</a></td> -->
+                <td><a href="{% url 'detail' pk=bookmark.id %}">{{bookmark.site_name}}</a></td>
+                <td><a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a></td>
+                <td><a href="{% url 'update' pk=bookmark.id %}" class="btn btn-warning btn-sm">Modify</a></td>
+                <td><a href="{% url 'delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+
+
+
+
+<!-- {% block pagination  %}
+    {% if is_paginated  %}
+        <ul class="pagination justify-content-center pagination-sm">
+            {% if page_obj.has_previous  %}
+                <li class="page-item">
+                    <a class="page-link" 
+                       href="{% url 'list'  %}?page={{page_obj.previous_page_number}}"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link"
+                       href="#"
+                       tabindex="-1">
+                        이전페이지
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for object in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == forloop.counter %}disabled{% endif %}">
+                    <a  class="page-link"
+                        href="{{ request.path }}?page={{forloop.counter}}">
+                        {{forloop.counter}}
+                    </a>
+                </li>
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-item"
+                       href="{% url 'list' %}?page={{page_obj.next_page_number}}">
+                        다음페이지
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">다음페이지</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif  %}
+{% endblock %} -->

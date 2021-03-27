@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}북마크 추가{% endblock %}
+
+{% block content %}
+    <!-- action 옵션을 비워두면 자기자신을 보여줌 -->
+    <!-- action -> 어느 페이지를 보여줄 것인지 결정 -->
+    <form action="" method="post">
+    
+        {% csrf_token %}
+    
+        <!-- as_p: 적당히 p tag로 form을 감싸줌 -->
+        <!-- as_table: table tag를 이용하여 form을 보여줌 -->
+        <!-- ModelFormMixin에서 만들어주는 기능 담당
+        제네릭 뷰에서 form 없을 경우 에러 발생 -->
+        {{form.as_p}}
+
+        <!-- 입력 완료 버튼 만들기 -->
+        <!-- class는 Bootstrap 적용, 현재는 적용 안됨.
+        나중에 head 영역에 부트스트랩을 적용하면 예쁜 화면 가능 -->
+        <input type="submit" value="제출하기" class="btn btn-info btn-sm">
+    
+    </form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}북마크 내용{% endblock %}
+
+{% block content %}
+    <!-- 모델에 있는 객체가 여러개일 경우 
+    장고는 object_list로 템플릿에 넘겨줌
+    만약 단 하나만 넘길 때는 object로 넘겨줌 -->
+    {{object.site_name}} <br>
+    {{object.url}}
+{% endblock %}
+

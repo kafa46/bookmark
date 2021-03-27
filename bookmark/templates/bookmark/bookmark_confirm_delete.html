@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}삭제 확인{% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="alert alert-danger">
+            북마크를 정말로 삭제할까요? <br>
+            북마크 이름: {{object.site_name}} <br>
+            북마크 주소: {{object.url}} <br>
+        </div>
+        <input type="submit" value="북마크 삭제" class="btn btn-danger">
+    </form>
+{% endblock %}
